@@ -52,25 +52,27 @@ export const resolvers = {
       if (deletedCount === 0) return false;
       else return true;
     },
-    
+
     modifyFlight: async (
-        _: unknown,
-        args: { id: string; origin: string; destination: string; date: string },
-        context: { flightCollection: Collection<FlightModel> }
-    ): Promise<Flight|null> => {
-        const updateFields: Partial<FlightModel> = {};
-        if (args.origin) updateFields.origin = args.origin;
-        if (args.destination) updateFields.destination = args.destination;
-        if (args.date) updateFields.date = args.date;
-        const result = await context.flightCollection.updateOne(
-            { _id: new ObjectId(args.id) },
-            { $set: updateFields }
-        );
-        
-        if(result.matchCount===0)return null
-        
-        const updatedFlight = await context.flightCollection.findOne({_id:new ObjectId(args.id)})
-        return updatedFlight ? fromModelToFlight(updatedFlight) : null;
+      _: unknown,
+      args: { id: string; origin: string; destination: string; date: string },
+      context: { flightCollection: Collection<FlightModel> }
+    ): Promise<Flight | null> => {
+      const updateFields: Partial<FlightModel> = {};
+      if (args.origin) updateFields.origin = args.origin;
+      if (args.destination) updateFields.destination = args.destination;
+      if (args.date) updateFields.date = args.date;
+      const result = await context.flightCollection.updateOne(
+        { _id: new ObjectId(args.id) },
+        { $set: updateFields }
+      );
+
+      if (result.matchCount === 0) return null;
+
+      const updatedFlight = await context.flightCollection.findOne({
+        _id: new ObjectId(args.id),
+      });
+      return updatedFlight ? fromModelToFlight(updatedFlight) : null;
     },
-    },
+  },
 };
