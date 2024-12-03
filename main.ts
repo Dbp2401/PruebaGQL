@@ -6,12 +6,12 @@ import { startStandaloneServer } from "@apollo/server/standalone";
 import { resolvers } from "./resolvers.ts";
 
 
-const mongo_url = Deno.env.get("MONGO_URL");
-if (!mongo_url) {
+const  MONGO_URL = "mongodb+srv://otheruser:123456aabbb@nebrija-cluster.goq2s.mongodb.net/?retryWrites=true&w=majority&appName=Nebrija-Cluster";
+if (!MONGO_URL) {
   console.info(MONGO_URL);
   throw new Error("Please provide a MONGO_URL");
 }
-const client = new MongoClient(mongo_url);
+const client = new MongoClient(MONGO_URL);
 await client.connect();
 console.log("Conectado correctamente");
 
